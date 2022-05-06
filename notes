@@ -1,0 +1,28 @@
+Dataset loading procedure for training:
+nnunet/run/run_training.py
+
+main():
+    ..., dataset_directory, trainer_class, ... = get_default_configuration()
+    (trainer_class: nnunet/training/network_training/nnUNetTrainer.py -> class nnUNetTrainer)
+        dataset_directory = join(preprocessing_output_dir, task)
+            from nnunet.paths ..., preprocessing_output_dir, ...
+
+    trainer = trainer_class(..., dataset_directory=dataset_directory, ...)
+
+    trainer.initialize()
+        self.dl_tr, self.dl_val = self.get_basic_generators()
+            self.load_dataset()
+                self.dataset = load_dataset(self.folder_with_preprocessed_data)
+                    dl_tr = DataLoader3D()
+                    dl_val = DataLoader3D()
+                    (DataLoader: nnunet/training/dataloading/dataset_loading.py -> class DataLoader3D)
+
+    trainer.run_training()
+        for each epoch:
+            self.run_iteration(self.tr_gen, ...)
+                data_dict = next(data_generator=self.tr_gen)
+                ...(rest of the training)...
+
+    trainer.validate()
+
+

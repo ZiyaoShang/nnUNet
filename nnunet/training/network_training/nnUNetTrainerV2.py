@@ -412,7 +412,7 @@ class nnUNetTrainerV2(nnUNetTrainer):
         """
         super().on_epoch_end()
         continue_training = self.epoch < self.max_num_epochs
-
+        print("the current epoch is: " + str(self.epoch))
         # it can rarely happen that the momentum of nnUNetTrainerV2 is too high for some dataset. If at epoch 100 the
         # estimated validation Dice is still 0 then we reduce the momentum from 0.99 to 0.95
         if self.epoch == 100:
